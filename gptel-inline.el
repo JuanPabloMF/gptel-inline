@@ -607,7 +607,8 @@ Inserts into the source buffer and triggers font-lock."
   (let* ((src-buf (plist-get (overlay-get ov 'gptel-inline) :src)))
     (when (buffer-live-p src-buf)
       (with-current-buffer src-buf
-        (goto-char (point-max)) (insert chunk) (font-lock-ensure)))))
+        (let ((inhibit-read-only t))    ;`markdown-ts-view-mode' is read-only
+          (goto-char (point-max)) (insert chunk) (font-lock-ensure))))))
 
 (defun gptel-inline--response-overlay-render (ov)
   "Render the buffer-based response overlay OV.
